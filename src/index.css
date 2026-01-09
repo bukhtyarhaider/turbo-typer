@@ -1,0 +1,40 @@
+@import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap");
+
+@theme {
+  --font-sans: "Fredoka", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --animate-spin-slow: spin 3s linear infinite;
+  --animate-flash-green: flash-green 0.3s ease-out forwards;
+  --animate-confetti: confetti 3s ease-out forwards;
+
+  @keyframes flash-green {
+    0% {
+      color: #16a34a;
+      text-shadow: none;
+    }
+    50% {
+      color: #ffffff;
+      text-shadow: 0 0 10px #22c55e, 0 0 20px #86efac;
+    }
+    100% {
+      color: #16a34a;
+      text-shadow: none;
+    }
+  }
+  @keyframes confetti {
+    0% {
+      transform: translateY(0) rotate(0deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(300px) rotate(720deg);
+      opacity: 0;
+    }
+  }
+}
+
+body {
+  background-color: #e0f2fe;
+}
