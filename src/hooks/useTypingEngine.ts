@@ -34,6 +34,7 @@ export const useTypingEngine = ({
   const lastInputLengthRef = useRef<number>(0);
   const keyPressHistory = useRef<number[]>([]);
   const lastKeyTime = useRef<number>(0);
+  const streakRef = useRef<number>(0);
 
   const resetTypingEngine = useCallback(async (difficulty: Difficulty) => {
     const newText = await generateTypingText(difficulty);
@@ -50,6 +51,7 @@ export const useTypingEngine = ({
     lastInputLengthRef.current = 0;
     keyPressHistory.current = [];
     lastKeyTime.current = 0;
+    streakRef.current = 0;
   }, []);
 
   const handleInputChange = useCallback(
@@ -67,6 +69,10 @@ export const useTypingEngine = ({
       if (newInput.length < prevLength) {
         setInputText(newInput);
         lastInputLengthRef.current = newInput.length;
+        // Reset streak on backspace or deletions?
+        // Usually backspace means you made a mistake or want to correct.
+        // Let's reset streak if length decreases.
+        streakRef.current = 0;
         return;
       }
 
@@ -78,9 +84,15 @@ export const useTypingEngine = ({
         soundService.playTypo();
         setStats((prev) => ({ ...prev, errors: prev.errors + 1 }));
         onMistake();
+        streakRef.current = 0;
       } else {
         keyPressHistory.current.push(Date.now());
         lastKeyTime.current = Date.now();
+        streakRef.current += 1;
+
+        if (streakRef.current > 0 && streakRef.current % 50 === 0) {
+          soundService.playYahoo();
+        }
       }
 
       setInputText(newInput);
