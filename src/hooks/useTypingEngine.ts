@@ -36,23 +36,26 @@ export const useTypingEngine = ({
   const lastKeyTime = useRef<number>(0);
   const streakRef = useRef<number>(0);
 
-  const resetTypingEngine = useCallback(async (difficulty: Difficulty) => {
-    const newText = await generateTypingText(difficulty);
-    setTargetText(newText);
-    setInputText("");
-    setStats({
-      wpm: 0,
-      accuracy: 100,
-      errors: 0,
-      progress: 0,
-      remainingChars: newText.length,
-    });
-    startTimeRef.current = null;
-    lastInputLengthRef.current = 0;
-    keyPressHistory.current = [];
-    lastKeyTime.current = 0;
-    streakRef.current = 0;
-  }, []);
+  const resetTypingEngine = useCallback(
+    async (difficulty: Difficulty, overrideText?: string) => {
+      const newText = overrideText || (await generateTypingText(difficulty));
+      setTargetText(newText);
+      setInputText("");
+      setStats({
+        wpm: 0,
+        accuracy: 100,
+        errors: 0,
+        progress: 0,
+        remainingChars: newText.length,
+      });
+      startTimeRef.current = null;
+      lastInputLengthRef.current = 0;
+      keyPressHistory.current = [];
+      lastKeyTime.current = 0;
+      streakRef.current = 0;
+    },
+    []
+  );
 
   const handleInputChange = useCallback(
     (newInput: string) => {
@@ -60,6 +63,8 @@ export const useTypingEngine = ({
 
       if (status === "IDLE") {
         setStatus(GameStatus.PLAYING);
+        startTimeRef.current = Date.now();
+      } else if (status === "BATTLE_PLAYING" && !startTimeRef.current) {
         startTimeRef.current = Date.now();
       }
 
@@ -162,7 +167,7 @@ export const useTypingEngine = ({
   };
 
   const updateStats = useCallback(() => {
-    if (status !== "PLAYING") return 0;
+    if (status !== "PLAYING" && status !== "BATTLE_PLAYING") return 0;
     const now = Date.now();
     const start = startTimeRef.current || now;
 

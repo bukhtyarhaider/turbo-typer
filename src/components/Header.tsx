@@ -80,7 +80,7 @@ const Header: React.FC<HeaderProps> = ({
 
       <div className="flex gap-4">
         {highScores.length > 0 && (
-          <div className="hidden md:flex flex-col items-center bg-yellow-300 border-4 border-black p-2 rounded-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] min-w-[100px]">
+          <div className="hidden md:flex flex-col items-center bg-yellow-300 border-4 border-black p-2 rounded-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] min-w-25">
             <div className="flex items-center gap-1">
               <Trophy className="w-4 h-4 text-black" />
               <span className="text-xs font-bold text-black uppercase">
@@ -91,19 +91,19 @@ const Header: React.FC<HeaderProps> = ({
           </div>
         )}
 
-        <div className="hidden md:flex flex-col items-center bg-white border-4 border-black p-2 rounded-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] min-w-[100px]">
+        <div className="hidden md:flex flex-col items-center bg-white border-4 border-black p-2 rounded-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] min-w-25">
           <span className="text-xs font-bold text-gray-500 uppercase">
             AVG WPM
           </span>
           <span className="text-2xl font-black">{wpm}</span>
         </div>
-        <div className="hidden md:flex flex-col items-center bg-white border-4 border-black p-2 rounded-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] min-w-[100px]">
+        <div className="hidden md:flex flex-col items-center bg-white border-4 border-black p-2 rounded-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] min-w-25">
           <span className="text-xs font-bold text-gray-500 uppercase">
             Errors
           </span>
           <span className="text-2xl font-black text-red-500">{errors}</span>
         </div>
-        <div className="hidden md:flex flex-col items-center bg-blue-200 border-4 border-black p-2 rounded-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] min-w-[100px]">
+        <div className="hidden md:flex flex-col items-center bg-blue-200 border-4 border-black p-2 rounded-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] min-w-25">
           <span className="text-xs font-bold text-gray-500 uppercase">
             Remain
           </span>
