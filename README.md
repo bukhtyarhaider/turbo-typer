@@ -2,6 +2,8 @@
   
 # 🚗💨 TURBO TYPER: COMIC EDITION 🎮⌨️
 
+<img width="3456" height="2442" alt="screencapture-localhost-3001-2026-01-11-05_24_52" src="https://github.com/user-attachments/assets/f1fb243e-e440-469b-8759-76ab789f70d3" />
+
 ### *"Born from boredom, powered by terrible typing, and absolutely CHAOTIC!"*
 
 ```
