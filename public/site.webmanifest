@@ -1,6 +1,7 @@
 {
   "name": "Turbo Typer - Comic Edition",
   "short_name": "Turbo Typer",
+  "author": "Bukhtyar Haider",
   "description": "A comic-style typing racing game where your typing speed powers your car",
   "start_url": "/",
   "display": "standalone",
