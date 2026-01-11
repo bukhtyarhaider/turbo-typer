@@ -3,10 +3,22 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
+  "description": "A comic-style typing racing game where your typing speed powers your car",
+  "keywords": [
+    "typing game",
+    "typing speed",
+    "WPM",
+    "typing test",
+    "browser game",
+    "racing game"
+  ],
+  "author": "Bukhtyar Haider",
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "analyze": "vite build --mode analyze"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.0.0",
