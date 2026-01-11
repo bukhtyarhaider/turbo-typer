@@ -24,7 +24,7 @@ export default defineConfig({
       },
     },
     sourcemap: false, // Disable sourcemaps in production
-    minify: "terser",
+    minify: "esbuild", // Use esbuild for faster builds (default)
     chunkSizeWarningLimit: 1000,
   },
   // Optimize dependencies
