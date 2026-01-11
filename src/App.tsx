@@ -18,7 +18,17 @@ import Header from "./components/Header";
 import GameControls from "./components/GameControls";
 import MobileStats from "./components/MobileStats";
 import { useMultiplayer } from "./hooks/useMultiplayer";
-import { Car, Copy, Check, Info, Users, Zap } from "lucide-react";
+import {
+  Car,
+  Copy,
+  Check,
+  Info,
+  Users,
+  Zap,
+  User,
+  ExternalLink,
+  X,
+} from "lucide-react";
 
 const App: React.FC = () => {
   const [status, setStatus] = useState<GameStatus>(GameStatus.IDLE);
@@ -35,6 +45,9 @@ const App: React.FC = () => {
   });
   const [copied, setCopied] = useState(false);
   const [battleResult, setBattleResult] = useState<BattleResult | null>(null);
+  const [showAbout, setShowAbout] = useState(false);
+  const [showCarBot, setShowCarBot] = useState(false);
+  const carBotShownRef = useRef(false);
   const battleStartTimeRef = useRef<number>(0);
   const myFinishTimeRef = useRef<number>(0);
   const battleEndedRef = useRef<boolean>(false);
@@ -252,6 +265,19 @@ const App: React.FC = () => {
       hasShield,
     };
   }, [myId, userName, stats.wpm, stats.progress, speed, hasShield]);
+
+  // Auto-show car chatbot after 2 seconds on first visit
+  useEffect(() => {
+    if (carBotShownRef.current) return;
+    const timer = setTimeout(() => {
+      if (!carBotShownRef.current) {
+        carBotShownRef.current = true;
+        setShowCarBot(true);
+        soundService.playHorn();
+      }
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const startBattle = useCallback(
     async (text: string) => {
@@ -615,7 +641,116 @@ const App: React.FC = () => {
           Type correctly to speed up. Watch the road incline increase on Hard
           mode!
         </p>
+
+        {/* About Developer Toggle */}
+        <button
+          onClick={() => setShowAbout(!showAbout)}
+          className="mt-4 flex items-center gap-2 mx-auto text-sm text-gray-500 hover:text-gray-700 transition-colors"
+        >
+          <User className="w-4 h-4" />
+          About Developer
+          <Info className="w-4 h-4" />
+        </button>
+
+        {/* About Developer Section */}
+        {showAbout && (
+          <div className="mt-4 mx-auto max-w-md p-4 bg-white border-4 border-black rounded-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="bg-blue-400 p-2 border-2 border-black rounded-lg">
+                <User className="w-5 h-5 text-black" />
+              </div>
+              <div className="text-left">
+                <h3 className="font-black text-lg text-black">
+                  Bukhtyar Haider
+                </h3>
+                <p className="text-sm text-gray-600">Full Stack Developer</p>
+              </div>
+            </div>
+            <p className="text-sm text-gray-700 text-left mb-3">
+              Had a boring weekend and noticed AI is eating our typing speed
+              these days. Thought "why not make typing fun again?" Also wanted
+              to experiment with Canvas API. So here's a racing game where your
+              WPM becomes your horsepower!
+            </p>
+            <div className="flex gap-2 text-xs">
+              <span className="bg-yellow-200 text-yellow-800 px-2 py-1 rounded border border-yellow-400 font-medium">
+                React
+              </span>
+              <span className="bg-blue-200 text-blue-800 px-2 py-1 rounded border border-blue-400 font-medium">
+                TypeScript
+              </span>
+              <span className="bg-green-200 text-green-800 px-2 py-1 rounded border border-green-400 font-medium">
+                Canvas
+              </span>
+              <span className="bg-purple-200 text-purple-800 px-2 py-1 rounded border border-purple-400 font-medium">
+                Web Audio
+              </span>
+            </div>
+          </div>
+        )}
+
+        {/* Developer Note */}
+        <div className="mt-6 text-xs text-gray-400 max-w-md mx-auto">
+          <p className="mb-2">
+            🚗 Made during a boring weekend by{" "}
+            <span className="font-semibold text-gray-600">Bukhtyar Haider</span>
+          </p>
+        </div>
       </footer>
+
+      {/* Floating Car Chatbot */}
+      <div className="fixed bottom-4 right-4 z-50">
+        {showCarBot ? (
+          <div className="animate-bounce-in flex flex-col items-end">
+            {/* Chat Bubble */}
+            <div className="bg-white border-4 border-black rounded-2xl shadow-[-4px_4px_0px_0px_rgba(0,0,0,1)] p-4 mb-2 max-w-xs relative">
+              <button
+                onClick={() => setShowCarBot(false)}
+                className="absolute -top-2 -left-2 bg-red-500 text-white rounded-full p-1 border-2 border-black hover:bg-red-600 transition-colors"
+              >
+                <X className="w-3 h-3" />
+              </button>
+              <p className="text-sm text-gray-700 leading-relaxed">
+                yo! thanks for stopping by 🏎️ had a boring weekend and noticed
+                AI is eating our typing speed... so i made this lil game. hope u
+                have fun racing!
+                <span className="block mt-2 font-semibold text-gray-900">
+                  - bukhtyar haider
+                </span>
+              </p>
+            </div>
+            {/* Car Icon */}
+            <div
+              onClick={() => setShowCarBot(false)}
+              className="bg-red-500 p-3 border-4 border-black rounded-full shadow-[-4px_4px_0px_0px_rgba(0,0,0,1)] cursor-pointer hover:bg-red-600 transition-colors"
+            >
+              <Car className="w-6 h-6 text-white" />
+            </div>
+          </div>
+        ) : (
+          <button
+            onClick={() => {
+              setShowCarBot(true);
+              soundService.playHorn();
+            }}
+            className="bg-red-500 p-3 border-4 border-black rounded-full shadow-[-4px_4px_0px_0px_rgba(0,0,0,1)] hover:bg-red-600 transition-all hover:scale-110 animate-pulse"
+            title="Say hi!"
+          >
+            <Car className="w-6 h-6 text-white" />
+          </button>
+        )}
+      </div>
+
+      <style>{`
+        @keyframes bounce-in {
+          0% { transform: scale(0) translateY(20px); opacity: 0; }
+          50% { transform: scale(1.1) translateY(-5px); }
+          100% { transform: scale(1) translateY(0); opacity: 1; }
+        }
+        .animate-bounce-in {
+          animation: bounce-in 0.4s ease-out forwards;
+        }
+      `}</style>
     </div>
   );
 };
